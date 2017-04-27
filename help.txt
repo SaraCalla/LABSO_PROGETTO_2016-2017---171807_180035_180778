@@ -1,4 +1,4 @@
-Componenti: Sara Callaioli , Asia Amanda Salvaterra , Vanes Carrer
+Componenti: Sara Callaioli , Amanda-Asia Salvaterra , Vanes Carrer
 
 Breve Descrizione: Il manager consente attraverso una shell custom interattiva e i comandi indicati di generare
 nuovi processi abbinandoli a un nome (stringa alfanumerica breve senza spazi) e interagire con
