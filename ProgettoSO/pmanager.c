@@ -21,6 +21,11 @@ char dimsuperata(int *NMAX, char vettfigli[], Processo proc){
 	return proc.vettfigli[NMAX];
 }
 
+/*CodaProcessi aumento(CodaProcessi *coda){
+	coda.next
+
+}/*
+
 /* FUNZIONI BASE DEL PROGETTO*/
 void phelp(){
 	FILE *fp;
@@ -47,10 +52,48 @@ void phelp(){
 	fclose(fp);
 }
 
-void plist(); //elenca i processi generati dalla shell
-Processo pnew(char nome[]); //crea un nuovo processo di nome <nome>
-void pinfo(char nome[]); //fornisce informazioni sul processo di nome <nome>
-void pclose (char nome[]); //chiede al processo di nome <nome> di chiudersi
+void plist(CodaProcessi *coda){
+	printf(" Lista dei processi generati: \n");
+	coda.Print();	
+}
+
+
+Processo pnew(char nome[], CodaProcessi *coda){
+	Processo proc;
+	proc.pid = fork();
+	strcpy(proc.nome, nome);
+	if (!(coda.isFull())){
+		Push(proc);
+	}
+	//else
+	//{
+//
+//	}
+	return proc;
+
+}
+
+void pinfo(CodaProcessi *coda, char nome[]){
+	for(int i=0; i<coda.dimcoda; i++)
+	{
+		if (strcmp (coda.lista[i].nome, nome) )
+		{
+			coda.lista[i].Print();
+		}
+	}
+}
+
+
+void pclose (char nome[])[{
+	for(int i=0; i<coda.dimcoda; i++)
+	{
+		if (strcmp (coda.lista[i].nome, nome) )
+		{
+			int a=coda.lista[i].pid;
+			system("kill"+a);
+		}
+	}
+}
 
 /*FUNZIONI AVANZATE DEL PROGETTO*/
 Processo pspawn( char nome[]); //chiede al processo di nome <nome> di clonarsi creando un processo di nome <nome_i> con i progressivo

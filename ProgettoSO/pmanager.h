@@ -14,11 +14,15 @@
 #define DIM 20 
 #define NMAX 100
 
-typedef struct Processo()
-{
+typedef int bool;
+#define true 1
+#define false 0
+
+
+typedef struct Processo(){
 	char nome[DIM];
 	int pid;
-	char vettfigli[NMAX] 
+	Processo vettfigli[NMAX] 
 
 	Processo(){
 		nome = NULL;
@@ -26,12 +30,63 @@ typedef struct Processo()
 		vettfigli = NULL;
 	}
 
+	void Print(){
+		print("Nome Processo: %s - Id Processo: %c - ",nome,pid);
+		printf("Figli: ");
+		for (int i=0; i<NMAX; i++)
+		{
+			printf(vettfigli[i] ",");
+		}
+	}
+
 };
 
+typedef struct CodaProcessi(){
+	Processo lista[];
+	Processo *next;	
+	int dimcoda;
+	int n;
+
+	CodaProcessi(){
+		n = 0;
+		next = NULL;
+		for (int i=0; i<dimcoda; i++)
+		{
+			lista[i] = NULL;
+		}
+	}
+
+	bool isFull(){
+		return n == dim;
+	}
+
+	bool isEmpty(){
+		return n == 0;
+	}
+
+	void Push(CodaProcessi c){
+		lista[n] = c;
+		n++;
+	}
+
+	CodaProcessi Pop(){
+		n--;
+		return lista[n];
+	}
+
+	void PrintCoda(){
+		for (int i=0; i<dimcoda; i++)
+		{
+			lista[i].Print();
+		}
+	}
+};
+
+
+
 /*FUNZIONI DI SUPPORTO*/
-char stringcopy(char s1[], char s2[]); //operazione su una stringa
 char dimsuperata(int *NMAX, char vettfigli[]); //aumento la dimensione del vettore dei figli nel caso non sia sufficiente per tenerli tutti in memoria
-int stringcompare(char s1[], char s2[]); //compara 2 stringhe. Se 1 allora sono diverse. Se 0 sono uguali.	
+
 
 /* FUNZIONI BASE DEL PROGETTO*/
 void phelp(); //stampa la lista dei comandi disponibili
