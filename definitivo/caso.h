@@ -35,17 +35,17 @@ typedef struct Processo
 	int figli[20];
 };
 
-struct Processo lista_processi[10];
 
-
+struct Processo lista_processi[10]; 
+int lista[10];
 /*FUNZIONI DI SUPPORTO Processo proc*/
 //char dimsuperata(int figli[]); //aumento la dimensione del vettore dei figli nel caso non sia sufficiente per tenerli tutti in memoria
-
-
+bool get_string(char string1[]);
+bool string_compare(char string1[],char string2[]);
 /* FUNZIONI BASE DEL PROGETTO*/
 void phelp(); //stampa la lista dei comandi disponibili
-void plist(); //elenca i processi generati dalla shell
-bool pnew(char nome[],int n); //crea un nuovo processo di nome <nome> e restituisce true se ce la fa, false altrimenti n è il buffer del vettore dei processi
+void plist(int n); //elenca i processi generati dalla shell
+bool pnew(char nome[], int n); //crea un nuovo processo di nome <nome> e restituisce true se ce la fa, false altrimenti n è il buffer del vettore dei processi
 void process_info(int n, char nome[]); //fornisce informazioni sul processo di nome <nome>
 bool chiudi_processo (int n, char nome[]); //chiede al processo di nome <nome> di chiudersi
 
