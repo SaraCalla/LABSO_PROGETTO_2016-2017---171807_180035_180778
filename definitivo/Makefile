@@ -5,13 +5,16 @@ help: help.txt
 
 
 clean:
-	rm -rf build/;
+	rm -rf build/
 	#rmdir -f build;
 
 build: clean
-	#rmdir build;
-	mkdir build;
-	cd build/;
+	mkdir build
+	gcc src/caso.h src/pmanager.c src/pmanagermain.c -o  build/pmanager.o 
+	
 	#compila il file c in questa cartella e rendilo eseguibile
 	#touch pmanager;
 	#chmod +x pmanager;
+
+assets: build
+	
