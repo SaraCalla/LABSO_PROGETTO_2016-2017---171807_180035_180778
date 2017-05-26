@@ -1,4 +1,4 @@
- #include <stdlib.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
@@ -9,33 +9,12 @@
 #include "caso.h"
 
 int global_variable=0;
+int status;
+
+int scrivi=1;
+int LEGGI=0;
 
 /* FUNZIONI DI SUPPORTO*/
-/*
-bool controlla_figli(struct Processo proch,int numero_massimo_figli)
-{
-	for(int i=0;i<numero_massimo_figli;i++)
-	{
-		if(proch.figli[i]!=NULL)
-		return false;	
-	}
-	return true;
-}
-*/
-/*bool get_string(char string1[])
-{
-	
-	//copia ciò che c'è scritto nel terminale in string1
-	printf("sono in get_string\n");
-	char *carattere=(char*) malloc(1*sizeof(char));
-	int i=0;
-	scanf("%c",&carattere);
-	while(carattere!="\0" && carattere!=" ")
-	{
-		carattere=realloc(i*sizeof(char);
-	}
-	
-}*/
 
 bool string_compare(char string1[],char string2[])
 {
@@ -52,11 +31,14 @@ bool string_compare(char string1[],char string2[])
 return true;
 }
 
+
 /* FUNZIONI BASE DEL PROGETTO*/
+
 void phelp()
 {
 	system("cat phelp.txt");
 }
+
 
 void plist(int n)
 {
@@ -66,17 +48,17 @@ void plist(int n)
 	{
 		if(lista_processi[i].chiuso!=true)
 		{
-		printf("Processo %d ",i);
-		printf("nome= %s - ",lista_processi[i].nome_processo);
-		printf("pid= %d - ",lista_processi[i].pid);
-		printf("ppid= %d ; \n",lista_processi[i].ppid);	
+			printf("Processo %d ",i);
+			printf("nome= %s - ",lista_processi[i].nome_processo);
+			printf("pid= %d - ",lista_processi[i].pid);
+			printf("ppid= %d ; \n",lista_processi[i].ppid);	
 		}
 		else
 		{
-		printf("Processo %d ",i);
-		printf("nome= %s - ",lista_processi[i].nome_processo);
-		printf("pid= x - ");
-		printf("ppid= x ; \n");	
+			printf("Processo %d ",i);
+			printf("nome= %s - ",lista_processi[i].nome_processo);
+			printf("pid= x - ");
+			printf("ppid= x ; \n");	
 		}
 	}
 }
@@ -84,46 +66,67 @@ void plist(int n)
 
 bool pnew(char nome[],int n)
 {	
+
 	printf("n in pnew: %d\n",n);
-	pid_t childPID 	; // id of child
-	//int locl = 0; // local variable 
-	//struct Processo lista_processi[10];    CREA UN ARRAY DI PROCESSI DENTRO AL MAIN
-	childPID = fork(); // FORK HERE!
-	
+	pid_t childPID 	; 
+	childPID = fork();
+	pipe(lista_processi[n].fd);
+	int comando=-1;
 	if (childPID >= 0)
 	{ // fork's success
 		if (childPID == 0)
         	{ // child process
-		    	//locl++;
-		    global_variable++;
-		   // printf("\n Child Process :: locl = [%d], glob[%d]\n\n", locl, glob);
-		    printf("il pid del processo figlio è %d \n", getpid());
-		    printf("e il processo del padre è %d \n",getppid());
-		    /*strcpy(lista_processi[n].nome_processo,nome);
-		    lista_processi[n].pid=getpid();
-		    lista_processi[n].ppid=getppid();
-		    lista_processi[n].chiuso=false;*/
-		    //lista[n]=17;
-		    printf("metto in pausa il figlio");
-		    pause();
-		    }
-		    else 
-		    { // parent process
-		    strcpy(lista_processi[n].nome_processo,nome);
-		    lista_processi[n].pid=childPID;
-		    lista_processi[n].ppid=getpid();
-		    lista_processi[n].chiuso=false;
-    		    lista[n]=17;
-    		    system("echo processo in pausa");
-		   
-		   // pause();
-		    
-		    //locl++;
-		    //glob = 30;
-		   // printf("\n Parent process :: locl = [%d], glob[%d]\n\n", locl, glob);
-		    //printf("il pid del processo padre è %d \n", getpid());
-		    
-                };	
+			global_variable++;
+			close(lista_processi[n].fd[scrivi]);
+			printf("il pid del processo figlio è %d \n", getpid());
+			printf("e il processo del padre è %d \n",getppid());
+			printf("metto in pausa il figlio\n");
+					
+			while(1) //dormo fino a quando non do la condizione
+			{
+				int buf=-1;
+				comando=read(lista_processi[n].fd[LEGGI],&buf,sizeof(int));
+				//printf("%d",comando);
+				//printf("questo è il numero stampato %d\n",buf);
+				if(comando==0)
+				{
+					printf("diocane");
+					}
+					/*
+					char nome2[strlen(nome)+2];
+					strcpy(nome2,nome);
+					char a=(char)n+1;
+					char ciao='_';
+					strcat(nome2,ciao);
+					strcat(nome2,a);
+					//clonax
+					//pnew(nome2,n);
+					
+					printf("forse faccio cose");
+				}
+				else if(comando==1)
+				{
+					//ucciditi
+				}
+				else if(comando==2);
+				{
+					//uccidi te e tutta la tua famiglia
+				}*/
+				//controlla la pipe 
+				//attendo la pipe (uccidi o clona o uccidi i figli)
+			//close(lista_pipe[n][LEGGI]);
+			}
+			printf("sono uscito dal while");
+			}
+			else 
+			{ // parent process
+
+				strcpy(lista_processi[n].nome_processo,nome);
+				lista_processi[n].pid=childPID;
+				lista_processi[n].ppid=getpid();
+				lista_processi[n].chiuso=false;
+				system("echo processo creato");		   		    
+        		};	
         }
 	else 
 	{ // fork's failure
@@ -135,14 +138,23 @@ bool pnew(char nome[],int n)
 
 }
 
+
 void process_info(int n, char nome[])
 {
 	for(int i=0; i<n; i++)
 	{
-		if (strcmp(lista_processi[n].nome_processo, nome) )
+		if (string_compare(lista_processi[i].nome_processo, nome) )
 		{
-			printf("pid= %d - ",lista_processi[i].pid);
-			printf("ppid= %d ; \n",lista_processi[i].ppid);	
+			if(lista_processi[i].chiuso!=true)
+			{
+				printf("pid= %d - ",lista_processi[i].pid);
+				printf("ppid= %d ; \n",lista_processi[i].ppid);	
+			}
+			else
+			{
+				printf("pid= x - ");
+				printf("ppid= x - processo chiuso; \n");	
+			}
 		}
 	}
 }
@@ -169,6 +181,29 @@ bool chiudi_processo (int n,char nome[])
 
 
 /*FUNZIONI AVANZATE DEL PROGETTO*/
-bool pspawn( char nome[]); //chiede al processo di nome <nome> di clonarsi creando un processo di nome <nome_i> con i progressivo
+bool pspawn(char nome[],int n) //chiede al processo di nome <nome> di clonarsi creando un processo di nome <nome_i> con i progressivo
+{
+	for(int i=0; i<=n; i++) //cerco il processo
+	{
+		if (strcmp(lista_processi[i].nome_processo, nome))
+			{
+				int a=0;
+				close(lista_processi[n].fd[LEGGI]);
+				//metto in wait il padre e faccio riprendere il figlio
+				printf("ora riprendo il processo\n");
+				write(lista_processi[i].fd[scrivi],&a,sizeof(int));
+				close(lista_processi[i].fd[scrivi]);
+				//printf(lista_processi[i].fd[scrivi]);
+				//modifico la pipe di quel processo e attendo che il figlio si cloni
+				//kill(lista_processi[i].pid,SIGCONT);
+				//close(lista_processi[i].fd[scrivi]);	
+			return true;
+			}
+	}
+return false;
+}
+
+
 void prmall(char nome[]); //chiede al processo di nome <nome> di chiudersi chiudendo anche tutti i suoi cloni
+
 void ptree(); //mostra la gerarchia dei processi attivi 
