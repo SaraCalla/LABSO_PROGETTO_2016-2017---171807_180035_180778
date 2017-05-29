@@ -43,6 +43,7 @@ int lista_pipe[MAX][2];			//lista pipe (non ancora usata)
 /*FUNZIONI DI SUPPORTO Processo proc*/
 
 bool string_compare(char string1[],char string2[]); 	//confronta due array di caratteri
+bool controlla_nome(char nome[], int dim);
 
 /* FUNZIONI BASE DEL PROGETTO*/
 

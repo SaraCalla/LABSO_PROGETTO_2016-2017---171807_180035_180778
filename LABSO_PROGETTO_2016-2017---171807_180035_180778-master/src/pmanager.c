@@ -38,6 +38,23 @@ bool string_compare(char string1[],char string2[])
 }
 
 
+bool controlla_nome(char nome[], int dim){
+	int i=0;
+	while(nome[i]!= '\0'){
+		i++;
+	}
+
+	if (i>dim ){
+		return false;
+	}
+
+	else{
+		return true;
+	}
+
+}
+
+
 
 /* FUNZIONI BASE DEL PROGETTO*/
 
@@ -186,6 +203,7 @@ bool pnew(char nome[],int n)
 
 void process_info(int n, char nome[])
 {
+	int flag = 0;
 	for(int i=0; i<n; i++)
 	{
 		//CERCO IL PRCESSO INIDICATO DALL'UTENTE
@@ -204,14 +222,21 @@ void process_info(int n, char nome[])
 				printf("pid= x - ");
 				printf("ppid= x - processo chiuso; \n");	
 			}
+
+			flag = 1;
 		}
+
 	}
+
+	if(flag ==0) {
+			printf("Processo non trovato \n");
+		}
 }
 
 
 bool chiudi_processo (int n,char nome[])
 {
-
+	int flag = 0;
 	for(int i=0; i<n; i++) //cerca il processo di nome "nome" 
 	{
 		if (string_compare(lista_processi[i].nome_processo, nome)) 
@@ -222,7 +247,15 @@ bool chiudi_processo (int n,char nome[])
 			lista_processi[i].chiuso=true;			//il processo è stato chiuso
 			return true;
 		}
+
+		
 	}
+
+	if(flag ==0) {
+		printf("Processo non trovato \n");	
+	}
+
+
 	return false;
 }
 
@@ -252,6 +285,10 @@ int j=0;
 			return true;
 			}
 	}
+
+	else {
+			printf("Processo non trovato");
+		}
 return false;	
 */
 }

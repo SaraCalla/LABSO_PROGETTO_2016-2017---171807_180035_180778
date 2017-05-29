@@ -8,6 +8,7 @@
 #include "pmanager.h"
 
 #define MAX_LENGTH 6
+#define MAX_NOME 25
 int n=0; // contatore che rappresenta quanti processi ho nella lista dei processi
 
 
@@ -15,7 +16,7 @@ int main(int argc, char *argv[]) {
 	
 
 	char *line =(char*) malloc(1*sizeof(char));  		//stringa che viene presa in input
-	char nome[25];						//nome del processo che verrà preso in input
+	char nome[MAX_NOME];						//nome del processo che verrà preso in input
 		while (1) 
 		{	
 			printf("my_own_terminal$ "); 		//nome della shell 
@@ -43,17 +44,29 @@ int main(int argc, char *argv[]) {
 			{
 				scanf("%s",nome);  		//presa in input del nome del processo 
 				
-				if(pnew(nome,n))		//controllo della corretta creazione del processo 
-				{
-					n++;			//incremento del numero di processi nella lista
-					printf("Processo creato\n");
+				if(controlla_nome(nome, MAX_NOME)){ 		//controllo di non overflow sul nome
+					
+					if(pnew(nome,n))		//controllo della corretta creazione del processo 
+					{
+						n++;			//incremento del numero di processi nella lista
+						printf("Processo creato\n");
+					}
+
 				}
+
+				else 
+					printf("Il nome inserito e' troppo lungo \n");
 			}
 			
 			
 			else if (string_compare(line,"pinfo"))
 			{
 				scanf("%s",nome);
+
+				if(!(controlla_nome(nome, MAX_NOME))){ 		//controllo di non overflow sul nome
+					printf("Il nome inserito e' troppo lungo \n");
+				}
+
 				process_info(n,nome); 		
 			}
 			
@@ -61,7 +74,12 @@ int main(int argc, char *argv[]) {
 			else if (string_compare(line,"pclose"))
 			{
 				scanf("%s",nome);
-				if(chiudi_processo(n,nome))			//controllo sull'avvennuta chiusura del processo 
+
+				if(!(controlla_nome(nome, MAX_NOME))){ 		//controllo di non overflow sul nome
+					printf("Il nome inserito e' troppo lungo \n");
+				}
+
+				else if(chiudi_processo(n,nome))			//controllo sull'avvennuta chiusura del processo 
 					printf("Processo eliminato\n");	
 				else
 					printf("Non sono riuscito a cancellare il processo \n");
@@ -71,6 +89,10 @@ int main(int argc, char *argv[]) {
 			else if (string_compare(line,"pspawn"))
 			{
 				scanf("%s",nome);
+				if(!(controlla_nome(nome, MAX_NOME))){ 		//controllo di non overflow sul nome
+					printf("Il nome inserito e' troppo lungo \n");
+				}
+
 				if(pspawn(nome,n))  		//il processo si è creato correttamente 
 					printf("Creato nuovo processo figlio di %s\n",nome);
 			}
