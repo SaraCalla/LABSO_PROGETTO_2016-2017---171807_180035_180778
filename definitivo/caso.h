@@ -11,42 +11,46 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-#define MAX 10 
-#define DIM 20 
-#define maxn 20
+#define MAX 10 		//dimensioni delle liste (processi e pipe)
+#define DIM_STRING 20 		//dimensine del vettore stringa 
+#define  DIM_NOME 50		//dimensione del nome di un processo 
 
-typedef int bool;
+
+/*
+*Creazione del tipo di  dato Processo
+*/
+typedef int bool;		 
 enum { false, true };
 
 
-typedef struct string
+typedef struct string  //da cancellare???
+	
 {
-	char* a[20];
+	char* a[DIM_STRING];
 };
 
-typedef struct Processo
+
+/*
+*Creazione del tipo di  dato Processo
+*/
+typedef struct Processo		
 {
 	int pid;
 	int ppid;
-	//int tempo_esec;
-	//bool visitato;
-	bool chiuso;
-	//bool pausa;
-	char nome_processo[20];
-	int figli[20];
-	int fd[2];
+	bool chiuso;			//attributo di stato che indica se il processo è stato chiuso o è attivo 
+	char nome_processo[DIM_NOME];
+//	int figli[DIM];
+	int fd[2];			//pipe tra un processo e suo padre
 };
 
 
-struct Processo lista_processi[10]; 
-int lista[10];
-int lista_pipe[10][2];
+struct Processo lista_processi[MAX]; 	//lista di elementi per tipo processo
+int lista_pipe[MAX][2];			//lista pipe (non ancora usata)
 
 
 /*FUNZIONI DI SUPPORTO Processo proc*/
 
-bool get_string(char string1[]);
-bool string_compare(char string1[],char string2[]);
+bool string_compare(char string1[],char string2[]); 	//confronta due array di caratteri
 
 /* FUNZIONI BASE DEL PROGETTO*/
 
