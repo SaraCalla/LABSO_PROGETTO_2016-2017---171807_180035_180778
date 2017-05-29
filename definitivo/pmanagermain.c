@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 	
 
 	char *line =(char*) malloc(1*sizeof(char));  		//stringa che viene presa in input
-	char nome[100];						//nome del processo che verrà preso in input
+	char nome[25];						//nome del processo che verrà preso in input
 		while (1) 
 		{	
 			printf("my_own_terminal$ "); 		//nome della shell 
