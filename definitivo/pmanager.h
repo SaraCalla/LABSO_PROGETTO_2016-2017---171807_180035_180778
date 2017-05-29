@@ -1,5 +1,5 @@
-#ifndef __CASO__
-#define __CASO__
+#ifndef __PMANAGER__
+#define __PMANAGER__
 
 
 #include <stdlib.h>
