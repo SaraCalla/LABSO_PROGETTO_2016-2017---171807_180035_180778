@@ -32,6 +32,7 @@ return true;
 }
 
 
+
 /* FUNZIONI BASE DEL PROGETTO*/
 
 void phelp()
@@ -68,29 +69,31 @@ bool pnew(char nome[],int n)
 {	
 
 	printf("n in pnew: %d\n",n);
+	int val=3;
 	pid_t childPID; 
-	pipe	(lista_processi[n].fd);
+	pipe(lista_processi[n].fd);
 	childPID = fork();
-	//int comando=-1;
-	//int buf=-1;
+	int comando=-1;
+	int buf=-1;
 	if (childPID >= 0)
 	{ // fork's success
 		if (childPID == 0)
         	{ // child process
         		char byte=0;
 			global_variable++;
-			int val;
 			close(lista_processi[n].fd[scrivi]);
 			printf("il pid del processo figlio è %d \n", getpid());
 			printf("e il processo del padre è %d \n",getppid());
 			printf("metto in pausa il figlio\n");
-			while(1) //dormo fino a quando non do la condizione
+			int comando;
+			comando=read(fd[0],&buf,100);
+			while(comando==0) //dormo fino a quando non do la condizione
 			{
 			
-				read(lista_processi[n].fd[LEGGI],&val,sizeof(val));
+				
 				if(val==0)
 				{
-					printf("diocane");
+					printf("sono nel ciclo\n");
 					//close(lista_processi[n].fd[LEGGI]);
 					break;
 				}
@@ -120,13 +123,16 @@ bool pnew(char nome[],int n)
 				}*/
 				//controlla la pipe 
 				//attendo la pipe (uccidi o clona o uccidi i figli)
+			comando=read(fd[0],&buf,100);
 			}
 			close(lista_processi[n].fd[LEGGI]);
-			printf("sono uscito dal while");
+			printf("sono uscito dal while\n");
 			}
 			else 
 			{ // parent process
 				close(lista_processi[n].fd[LEGGI]);
+				write(lista_processi[n].fd[scrivi],&val;
+				
 				strcpy(lista_processi[n].nome_processo,nome);
 				lista_processi[n].pid=childPID;
 				lista_processi[n].ppid=getpid();
@@ -200,10 +206,8 @@ int j=0;
 				int a=0;
 				//metto in wait il padre e faccio riprendere il figlio
 				//printf("ora riprendo il processo\n");
-				if(write(lista_processi[i].fd[scrivi],&a,sizeof(a)))
-				{
-					printf("ho scritto %d\n",lista_processi[i].fd[scrivi]);
-				}
+				write(lista_processi[i].fd[scrivi],&a,sizeof(a));
+				printf("ho scritto %d\n",lista_processi[i].fd[scrivi]);
 				close(lista_processi[i].fd[scrivi]);
 				//printf(lista_processi[i].fd[scrivi]);
 				//modifico la pipe di quel processo e attendo che il figlio si cloni
