@@ -1,0 +1,7 @@
+Comandi disponibili
+-phelp ​: stampa un elenco dei comandi disponibili
+-plist ​: elenca i processi generati dalla shell custom
+-pnew <nome> ​: crea un nuovo processo con nome <nome>
+-pinfo <nome> ​: fornisce informazioni sul processo <nome> (almeno ​pid ​ e ​ppid ​)
+-pclose <nome> ​: chiede al processo <nome> di chiudersi
+-quit ​: esce dalla shell custom

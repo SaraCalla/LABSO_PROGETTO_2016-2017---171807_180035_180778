@@ -1,0 +1,17 @@
+Componenti: Sara Callaioli , Amanda-Asia Salvaterra , Vanes Carrer
+
+Breve Descrizione: Il manager consente attraverso una shell custom interattiva e i comandi indicati di generare
+nuovi processi abbinandoli a un nome (stringa alfanumerica breve senza spazi) e interagire con
+essi. 
+
+
+Regole disponibili:
+
+	help:		mostra queste informazioni
+	(default)
+	
+	clean:		cancella la/e cartella/e build ed eventualmente assets se presente/i
+
+	build:		crea una cartella “build” con dentro il/i file(s) eseguibile/i richiamando prima clean
+  
+  
