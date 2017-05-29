@@ -152,7 +152,7 @@ bool pnew(char nome[],int n)
 		else 
 		{ // parent process
 			close(lista_processi[n].fd[LEGGI]);
-			write(lista_processi[n].fd[scrivi],&val;
+			write(lista_processi[n].fd[SCRIVI],&val;
 			
 			strcpy(lista_processi[n].nome_processo,nome);		//associo il nome dato dall'utente al processo
 			
