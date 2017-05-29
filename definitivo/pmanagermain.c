@@ -25,26 +25,27 @@ int main(int argc, char *argv[]) {
 			if (!scanf("%s",line)) break;
 			
 			
+			/*
+			*	ricerca del comando inserito tramite vari controlli 
+			*/
 			if(string_compare(line,"phelp"))
 			{
-				printf("sono nell'if di phelp\n");
 				phelp();
 			}
 			
 			
 			else if (string_compare(line,"plist"))
 			{
-				printf("sono nell'if di plist e n e: %d\n",n);
 				plist(n);
 			}
 					
 			else if (string_compare(line,"pnew"))
 			{
-				scanf("%s",nome);
+				scanf("%s",nome);  		//presa in input del nome del processo 
 				
-				if(pnew(nome,n))
+				if(pnew(nome,n))		//controllo della corretta creazione del processo 
 				{
-					n++;
+					n++;			//incremento del numero di processi nella lista
 					printf("Processo creato\n");
 				}
 			}
@@ -53,34 +54,39 @@ int main(int argc, char *argv[]) {
 			else if (string_compare(line,"pinfo"))
 			{
 				scanf("%s",nome);
-				process_info(n,nome);
+				process_info(n,nome); 		
 			}
 			
 			
 			else if (string_compare(line,"pclose"))
 			{
 				scanf("%s",nome);
-				if(chiudi_processo(n,nome))
+				if(chiudi_processo(n,nome))			//controllo sull'avvennuta chiusura del processo 
 					printf("Processo eliminato\n");	
 				else
-					printf("Nothing happened, splash\n");
+					printf("Non sono riuscito a cancellare il processo \n");
 			}
 			
 			
 			else if (string_compare(line,"pspawn"))
 			{
 				scanf("%s",nome);
-				if(pspawn(nome,n))
+				if(pspawn(nome,n))  		//il processo si è creato correttamente 
 					printf("Creato nuovo processo figlio di %s\n",nome);
 			}
-				/*
-					case "prmall":
-							//prmall();
-							break;
-					case "ptree":
-							//ptree();
-							break;
-				*/
+			
+			else if (string_compare(line,"prmall"))
+			{
+				scanf("%s",nome);
+			}
+			
+			
+			else if (string_compare(line,"ptree"))
+			{
+				
+				
+			}
+				
 			else if (string_compare(line,"quit"))
 			{
 				exit(0);
@@ -89,10 +95,10 @@ int main(int argc, char *argv[]) {
 			
 			else
 			{
-				printf("comando errato, per la lista comandi digita \"phelp\"\n");
+				printf("Comando errato, per la lista comandi digita \"phelp\"\n");  //dobbiamo lanciare noi di default il phelp o dobbiamo solo dirgli di farlo
 			}
 					
 				
 		}
-return 0;
+	return 0;
 }
