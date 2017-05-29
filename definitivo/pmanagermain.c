@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include "caso.h"
+#include "pmanager.h"
 
 #define MAX_LENGTH 6
 int n=0; // contatore che rappresenta quanti processi ho nella lista dei processi
