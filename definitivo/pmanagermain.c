@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 					printf("Creato nuovo processo figlio di %s\n",nome);
 			}
 			
-			else if (string_compare(line,"prmall"))
+			/*else if (string_compare(line,"prmall"))
 			{
 				scanf("%s",nome);
 			}
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 			{
 				
 				
-			}
+			}*/
 				
 			else if (string_compare(line,"quit"))
 			{
