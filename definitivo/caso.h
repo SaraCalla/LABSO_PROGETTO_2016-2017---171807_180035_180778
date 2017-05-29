@@ -17,7 +17,7 @@
 
 
 /*
-*Creazione del tipo di  dato Processo
+*Creazione del tipo di dato booleano 
 */
 typedef int bool;		 
 enum { false, true };
@@ -44,7 +44,7 @@ typedef struct Processo
 };
 
 
-struct Processo lista_processi[MAX]; 	//lista di elementi per tipo processo
+struct Processo lista_processi[MAX]; 	//lista di elementi di tipo Processo
 int lista_pipe[MAX][2];			//lista pipe (non ancora usata)
 
 
