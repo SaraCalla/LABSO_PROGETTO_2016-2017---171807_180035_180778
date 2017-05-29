@@ -12,7 +12,6 @@
 #include <sys/wait.h>
 
 #define MAX 10 		//dimensioni delle liste (processi e pipe)
-#define DIM_STRING 20 		//dimensine del vettore stringa 
 #define  DIM_NOME 50		//dimensione del nome di un processo 
 
 
@@ -21,13 +20,6 @@
 */
 typedef int bool;		 
 enum { false, true };
-
-
-typedef struct string  //da cancellare???
-	
-{
-	char* a[DIM_STRING];
-};
 
 
 /*
