@@ -44,18 +44,18 @@ int main(int argc, char *argv[]) {
 			{
 				scanf("%s",nome);  		//presa in input del nome del processo 
 				
-				if(controlla_nome(nome, MAX_NOME)){ 		//controllo di non overflow sul nome
-					
+				if(controlla_nome(nome, MAX_NOME)) 		//controllo di non overflow sul nome
+				{	
 					if(pnew(nome,n))		//controllo della corretta creazione del processo 
 					{
 						n++;			//incremento del numero di processi nella lista
-						printf("Processo creato\n");
+						printf("Processo creato.\n");
 					}
 
 				}
 
 				else 
-					printf("Il nome inserito e' troppo lungo \n");
+					printf("Il nome inserito e' troppo lungo! \n");
 			}
 			
 			
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 				scanf("%s",nome);
 
 				if(!(controlla_nome(nome, MAX_NOME))){ 		//controllo di non overflow sul nome
-					printf("Il nome inserito e' troppo lungo \n");
+					printf("Il nome inserito e' troppo lungo! \n");
 				}
 
 				process_info(n,nome); 		
@@ -76,13 +76,13 @@ int main(int argc, char *argv[]) {
 				scanf("%s",nome);
 
 				if(!(controlla_nome(nome, MAX_NOME))){ 		//controllo di non overflow sul nome
-					printf("Il nome inserito e' troppo lungo \n");
+					printf("Il nome inserito e' troppo lungo! \n");
 				}
 
 				else if(chiudi_processo(n,nome))			//controllo sull'avvennuta chiusura del processo 
-					printf("Processo eliminato\n");	
+					printf("Processo eliminato.\n");	
 				else
-					printf("Non sono riuscito a cancellare il processo \n");
+					printf("Non sono riuscito a cancellare il processo! \n");
 			}
 			
 			
@@ -90,11 +90,11 @@ int main(int argc, char *argv[]) {
 			{
 				scanf("%s",nome);
 				if(!(controlla_nome(nome, MAX_NOME))){ 		//controllo di non overflow sul nome
-					printf("Il nome inserito e' troppo lungo \n");
+					printf("Il nome inserito e' troppo lungo! \n");
 				}
 
 				if(pspawn(nome,n))  		//il processo si è creato correttamente 
-					printf("Creato nuovo processo figlio di %s\n",nome);
+					printf("Creato nuovo processo figlio di %s.\n",nome);
 			}
 			
 			/*else if (string_compare(line,"prmall"))
@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
 			
 			else
 			{
-				printf("Comando errato, per la lista comandi digita \"phelp\"\n");  //dobbiamo lanciare noi di default il phelp o dobbiamo solo dirgli di farlo
+				printf("Comando errato, per la lista comandi digita \"phelp.\"\n");  //dobbiamo lanciare noi di default il phelp o dobbiamo solo dirgli di farlo
 			}
 					
 				

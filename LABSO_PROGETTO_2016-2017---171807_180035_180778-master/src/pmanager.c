@@ -31,7 +31,7 @@ bool string_compare(char string1[],char string2[])
 	{	
 		if(string1[i]!=string2[i])
 		{
-		return false;
+			return false;
 		}
 	}
 	return true;
@@ -44,17 +44,17 @@ bool controlla_nome(char nome[], int dim){
 		i++;
 	}
 
-	if (i>dim ){
+	if (i>dim )
+	{
 		return false;
 	}
 
-	else{
+	else
+	{
 		return true;
 	}
 
 }
-
-
 
 /* FUNZIONI BASE DEL PROGETTO*/
 
@@ -79,7 +79,7 @@ void plist(int n)
 			printf("Processo %d ",i);
 			printf("nome= %s - ",lista_processi[i].nome_processo);
 			printf("pid= %d - ",lista_processi[i].pid);
-			printf("ppid= %d ; \n",lista_processi[i].ppid);	
+			printf("ppid= %d; \n",lista_processi[i].ppid);	
 		}
 		
 		//se invece il processo è stato chiuso al posto delle informazioni apparirà una "x"
@@ -88,7 +88,7 @@ void plist(int n)
 			printf("Processo %d ",i);
 			printf("nome= %s - ",lista_processi[i].nome_processo);
 			printf("pid= x - ");
-			printf("ppid= x ; \n");	
+			printf("ppid= x; \n");	
 		}
 	}
 }
@@ -117,11 +117,12 @@ bool pnew(char nome[],int n)
 			close(lista_processi[n].fd[SCRIVI]);
 			
 			//Informazioni stampate a video sul processo creato
-			printf("il pid del processo figlio è %d \n", getpid());
-			printf("e il processo del padre è %d \n",getppid());
+			
+			printf("Il pid del processo figlio è %d \n", getpid());
+			printf("Il pid del processo padre è %d \n",getppid());
 			
 			//DEB
-			printf("metto in pausa il figlio\n N: %d\n",n);
+			//printf("metto in pausa il figlio\n N: %d\n",n);
 			
 			//while(1){
 
@@ -129,7 +130,7 @@ bool pnew(char nome[],int n)
 			
 			while(comando==0) //dormo fino a quando non do la condizione
 			{
-				printf("%d\n",n);
+				//printf("%d\n",n);
 				comando=read(lista_processi[n].fd[LEGGI],&buf,100);
 				printf("buf: %d, comando: %d\n", buf, comando);
 				if(buf==1)
@@ -184,7 +185,7 @@ bool pnew(char nome[],int n)
 			lista_processi[n].pid=childPID;
 			lista_processi[n].ppid=getpid();
 			lista_processi[n].chiuso=false;		//imposto chiuso a false per indicare che il processo è attivo 
-			system("echo processo creato\n");		//system call per ritornare al nostro terminale 		    
+			system("");		//system call per ritornare al nostro terminale 		    
        		};	
         }
 				      
@@ -215,7 +216,7 @@ void process_info(int n, char nome[])
 			if(lista_processi[i].chiuso!=true)
 			{
 				printf("pid= %d - ",lista_processi[i].pid);
-				printf("ppid= %d ; \n",lista_processi[i].ppid);	
+				printf("ppid= %d; \n",lista_processi[i].ppid);	
 			}
 			
 			//altrimenti se è stato chiuso al poste delle informazioni stampo "x"
@@ -261,7 +262,7 @@ bool chiudi_processo (int n,char nome[])
 	}
 
 	if(flag ==0) {
-		printf("Processo non trovato \n");	
+		printf("Processo non trovato!s \n");	
 	}
 
 
