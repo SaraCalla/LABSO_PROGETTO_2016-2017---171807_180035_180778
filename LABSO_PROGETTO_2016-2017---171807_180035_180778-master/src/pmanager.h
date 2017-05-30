@@ -44,6 +44,7 @@ int lista_pipe[MAX][2];			//lista pipe (non ancora usata)
 
 bool string_compare(char string1[],char string2[]); 	//confronta due array di caratteri
 bool controlla_nome(char nome[], int dim);
+void nome_progressivo(char nome[], int cont);
 
 /* FUNZIONI BASE DEL PROGETTO*/
 
