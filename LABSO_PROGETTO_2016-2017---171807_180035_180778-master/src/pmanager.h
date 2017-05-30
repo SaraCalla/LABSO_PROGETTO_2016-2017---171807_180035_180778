@@ -33,7 +33,7 @@ typedef struct Processo
 	char nome_processo[DIM_NOME];
 //	int figli[DIM];
 	int fd[2];			//pipe tra un processo e suo padre
-};
+} p;
 
 
 struct Processo lista_processi[MAX]; 	//lista di elementi di tipo Processo
