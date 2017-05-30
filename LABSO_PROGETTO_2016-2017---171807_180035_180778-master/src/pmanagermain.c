@@ -111,6 +111,10 @@ int main(int argc, char *argv[]) {
 				
 			else if (string_compare(line,"quit"))
 			{
+				for(int i=0; i<n; i++)
+				{
+					kill(lista_processi[i].pid,SIGKILL);
+				}
 				exit(0);
 			}
 			
