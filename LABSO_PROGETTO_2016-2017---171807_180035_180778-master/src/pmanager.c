@@ -70,7 +70,7 @@ void plist(int n)
 	printf(" Lista dei processi generati: \n");
 	
 	//stampa a video la lista di processi
-	for(int i=0;i<=n;i++)
+	for(int i=0;i<n;i++)
 	{
 		//CONTROLLO DELLO STATO DEL PROCESSO 
 		//se un processo è attivo stampa a video le informazioni base
