@@ -239,16 +239,18 @@ bool chiudi_processo (int n,char nome[])
 	int flag = 0;
 	for(int i=0; i<n; i++) //cerca il processo di nome "nome" 
 	{
-		if (string_compare(lista_processi[i].nome_processo, nome)) 
+		if (lista_processi[i].chiuso==true)
 		{
-			
+			printf("Processo già chiuso!\n");
+			return false;
+		}
+		else
+		{
 			kill(lista_processi[i].pid,SIGKILL);		//system call che uccide il processo
 			//i figli saranno orfani
 			lista_processi[i].chiuso=true;			//il processo è stato chiuso
 			return true;
 		}
-
-		
 	}
 
 	if(flag ==0) {
