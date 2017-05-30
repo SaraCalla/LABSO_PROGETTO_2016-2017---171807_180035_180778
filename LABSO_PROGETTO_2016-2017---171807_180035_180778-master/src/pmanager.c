@@ -98,11 +98,12 @@ bool pnew(char nome[],int n)
 {	
 
 	int val=3;
-	pid_t childPID;   		//dichiarazione del pid del figlio 
-	//pipe(lista_processi[n].fd);	
+	pid_t childPID;   
+	int fd[2];		//dichiarazione del pid del figlio 
+	pipe(lista_processi[n].fd);
+	int comando=0;
+	int buf=-1;	
 	childPID = fork();		//eseguo una fork e associo il pid creato a childPID
-	int comando=-1;
-	int buf=-1;
 	
 	//CONTROLLO DEL SUCCESSO DELLA FORK 
 	if (childPID >= 0)
@@ -113,30 +114,31 @@ bool pnew(char nome[],int n)
         	{ 
         		char byte=0;
 			global_variable++;
-			//close(lista_processi[n].fd[SCRIVI]);
+			close(lista_processi[n].fd[SCRIVI]);
 			
 			//Informazioni stampate a video sul processo creato
 			printf("il pid del processo figlio è %d \n", getpid());
 			printf("e il processo del padre è %d \n",getppid());
 			
 			//DEB
-			printf("metto in pausa il figlio\n");
+			printf("metto in pausa il figlio\n N: %d\n",n);
 			
-			while(1){
+			//while(1){
 
-			}
-			/*int comando;
-			comando=read(fd[0],&buf,100);
+			//}
+			
 			while(comando==0) //dormo fino a quando non do la condizione
 			{
-			
-				
-				if(val==0)
+				printf("%d\n",n);
+				comando=read(lista_processi[n].fd[LEGGI],&buf,100);
+				printf("buf: %d, comando: %d\n", buf, comando);
+				if(buf==1)
 				{
 					printf("sono nel ciclo\n");
 					//close(lista_processi[n].fd[LEGGI]);
 					break;
 				}
+			}
 				//else
 				//{
 				//	break;
@@ -173,7 +175,7 @@ bool pnew(char nome[],int n)
 
 		else 
 		{ // parent process
-			//close(lista_processi[n].fd[LEGGI]);
+			close(lista_processi[n].fd[LEGGI]);
 			//write(lista_processi[n].fd[SCRIVI],&val);
 			
 			strcpy(lista_processi[n].nome_processo,nome);		//associo il nome dato dall'utente al processo
@@ -182,7 +184,7 @@ bool pnew(char nome[],int n)
 			lista_processi[n].pid=childPID;
 			lista_processi[n].ppid=getpid();
 			lista_processi[n].chiuso=false;		//imposto chiuso a false per indicare che il processo è attivo 
-			system("echo processo creato");		//system call per ritornare al nostro terminale 		    
+			system("echo processo creato\n");		//system call per ritornare al nostro terminale 		    
        		};	
         }
 				      
@@ -239,18 +241,23 @@ bool chiudi_processo (int n,char nome[])
 	int flag = 0;
 	for(int i=0; i<n; i++) //cerca il processo di nome "nome" 
 	{
-		if (lista_processi[i].chiuso==true)
+		if (string_compare(lista_processi[i].nome_processo, nome)) 
 		{
-			printf("Processo già chiuso!\n");
-			return false;
+			if (lista_processi[i].chiuso==true)
+			{
+				printf("Processo già chiuso!\n");
+				return false;
+			}
+			else
+			{
+				kill(lista_processi[i].pid,SIGKILL);		//system call che uccide il processo
+				//i figli saranno orfani
+				lista_processi[i].chiuso=true;			//il processo è stato chiuso
+				return true;
+			}
 		}
-		else
-		{
-			kill(lista_processi[i].pid,SIGKILL);		//system call che uccide il processo
-			//i figli saranno orfani
-			lista_processi[i].chiuso=true;			//il processo è stato chiuso
-			return true;
-		}
+
+		
 	}
 
 	if(flag ==0) {
@@ -265,21 +272,26 @@ bool chiudi_processo (int n,char nome[])
 /*FUNZIONI AVANZATE DEL PROGETTO*/
 bool pspawn(char nome[],int n) //chiede al processo di nome <nome> di clonarsi creando un processo di nome <nome_i> con i progressivo
 {
-/*
-printf("sono all'inizio di pspawn");
-int j=0;
-	for(int i=0; i<=n; i++) //cerco il processo
+
+	printf("sono all'inizio di pspawn\n");
+	printf ("%d\n",n);
+	int j=0;
+	for(int i=0; i<n; i++) //cerco il processo
 	{
-		if (strcmp(lista_processi[i].nome_processo, nome))
+		printf("%s - %s(%d)\n",lista_processi[i].nome_processo,nome,i);
+		if (string_compare(lista_processi[i].nome_processo, nome))
 			{
-				printf("ho trovato il processo");
-				close(lista_processi[n].fd[LEGGI]);
-				int a=0;
+				printf("ho trovato il processo %s(%d)\n",nome,i);
+				
+				//close(lista_processi[n].fd[LEGGI]);
+				int a=1;
 				//metto in wait il padre e faccio riprendere il figlio
 				//printf("ora riprendo il processo\n");
-				write(lista_processi[i].fd[scrivi],&a,sizeof(a));
-				printf("ho scritto %d\n",lista_processi[i].fd[scrivi]);
-				close(lista_processi[i].fd[scrivi]);
+				int val = write(lista_processi[i].fd[SCRIVI],&a,sizeof(a));
+				printf("pipe %d\n",lista_processi[i].fd[SCRIVI]);
+				printf("ho scritto a %d\n",a);
+				printf("val: %d\n",val);
+				//close(lista_processi[i].fd[scrivi]);
 				//printf(lista_processi[i].fd[scrivi]);
 				//modifico la pipe di quel processo e attendo che il figlio si cloni
 				//kill(lista_processi[i].pid,SIGCONT);
@@ -288,11 +300,11 @@ int j=0;
 			}
 	}
 
-	else {
+	/*else {
 			printf("Processo non trovato");
-		}
-return false;	
-*/
+		}*/
+	return false;	
+
 }
 
 
