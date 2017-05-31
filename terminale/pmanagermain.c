@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
 					if(pnew(nome,n))		//controllo della corretta creazione del processo 
 					{
 						n++;			//incremento del numero di processi nella lista
+						
 						printf("Processo creato.\n");
 					}
 
@@ -96,6 +97,7 @@ int main(int argc, char *argv[]) {
 				dove_sono=1;
 				if( (pspawn(nome,n,&dove_sono) )> 0)  		//il processo si è creato correttamente 
 					printf("Creato nuovo processo figlio di %s.\n",nome);
+				
 			}
 			
 			/*else if (string_compare(line,"prmall"))
@@ -133,7 +135,7 @@ int main(int argc, char *argv[]) {
 			
 			else
 			{
-				printf("Comando errato, per la lista comandi digita \"phelp.\"\n");  //dobbiamo lanciare noi di default il phelp o dobbiamo solo dirgli di farlo
+				printf("Comando errato, per la lista comandi digita \"phelp\".\n");  //dobbiamo lanciare noi di default il phelp o dobbiamo solo dirgli di farlo
 			}
 					
 		}		

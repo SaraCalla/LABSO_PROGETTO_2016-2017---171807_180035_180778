@@ -29,10 +29,12 @@ typedef struct Processo
 {
 	int pid;
 	int ppid;
-	bool chiuso;			//attributo di stato che indica se il processo è stato chiuso o è attivo 
+	bool chiuso;
+	bool visitato;			//attributo di stato che indica se il processo è stato chiuso o è attivo 
 	char nome_processo[DIM_NOME];
-//	int figli[DIM];
+	int figli[MAX];
 	int fd[2];			//pipe tra un processo e suo padre
+	int fd1[2];
 } p;
 
 

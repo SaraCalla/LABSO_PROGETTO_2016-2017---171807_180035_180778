@@ -59,7 +59,7 @@ bool controlla_nome(char nome[], int dim){
 void nome_progressivo(char nome[], int cont)
 {
 	
-	printf("Nome inserito: %s\n", nome);
+	//printf("Nome inserito: %s\n", nome);
 
 	char nuovo_nome[DIM_NOME];
 
@@ -67,12 +67,12 @@ void nome_progressivo(char nome[], int cont)
 	while (nome[i] != '\0')
 	{
 		nuovo_nome[i] = nome[i];
-		printf("nuovo_nome nel while: %c\n",nuovo_nome[i]);
+		//printf("nuovo_nome nel while: %c\n",nuovo_nome[i]);
 		i++;
 	}
 	
-	printf("nuovo nome: %s\n", nuovo_nome);	
-	printf("i: %d\n",i);
+	//printf("nuovo nome: %s\n", nuovo_nome);	
+	//printf("i: %d\n",i);
 	char contatore = cont +'0';
 	nuovo_nome[i] = '_';
 	nuovo_nome[i+1] = contatore;
@@ -82,7 +82,7 @@ void nome_progressivo(char nome[], int cont)
 	{
 		nome[j] = nuovo_nome[j];
 	}
-	printf("Nuovo nome finale: %s\n",nuovo_nome);
+	//printf("Nuovo nome finale: %s\n",nuovo_nome);
 }
 
 void trova_nome_padre(int pid, char nome_padre[], int n)
@@ -95,7 +95,7 @@ void trova_nome_padre(int pid, char nome_padre[], int n)
 			while (lista_processi[i].nome_processo[j] != '\0')
 			{
 				nome_padre[j] = lista_processi[i].nome_processo[j];
-				//printf("nuovo_nome nel while: %c\n",nuovo_nome[i]);
+
 				j++;
 			}
 			lista_processi[i].nome_processo[j+1] = '\0';
@@ -147,8 +147,9 @@ bool pnew(char nome[],int n)
 	int val=3;
 	pid_t childPID;   
 	int fd[2];		//dichiarazione del pid del figlio 
+	int fd1[2];
 	pipe(lista_processi[n].fd);
-
+	pipe(lista_processi[n].fd1);
 	int buf=-1;
 	int contatore = 0;
 	//char nome_padre[DIM_NOME];	
@@ -168,58 +169,59 @@ bool pnew(char nome[],int n)
 			
 			//Informazioni stampate a video sul processo creato
 			
-			printf("Il pid del processo figlio è %d \n", getpid());
+			printf("\nIl pid del processo figlio è %d \n", getpid());
 			printf("Il pid del processo padre è %d \n",getppid());
 			
-			//DEB
-			//printf("metto in pausa il figlio\n N: %d\n",n);
 			
-			//while(1){
-
-			//}
-			printf ("Sono prima del while\n");
-			while(comando==0) //dormo fino a quando non do la condizione
+			//printf ("Sono prima del while\n");
+			//printf("comando= %d\n",comando);
+				
+			while(comando == 0) //dormo fino a quando non do la condizione
 			{
-				//printf("%d\n",n);
-				comando=read(lista_processi[n].fd[LEGGI],&buf,100);
-				printf("buf: %d, comando: %d\n", buf, comando);
-				if(buf==1)
+				close(lista_processi[n].fd1[LEGGI]);
+				printf("BUf appena dentro il while: %d\n",buf);
+				while(buf < 0)
 				{
-					char nuovo_nome[DIM_NOME];
-					contatore++;
-					printf("sono nel ciclo\n");
-					//int clonePID = fork();
-					//trova_nome_padre(getppid(),nome_padre,n);
-					strcmp(nome,nuovo_nome);
-					nome_progressivo(nuovo_nome,contatore);
-					pnew(nuovo_nome,contatore);
-					close(lista_processi[n].fd[LEGGI]);
-					sleep(5);					
-					/*					
-					lista_processi[n].pid == clonePID;
-					lista_processi[n].ppid == getppid();
-					printf("Il pid del processo figlio è %d \n", getpid());
-					printf("Il pid del processo padre è %d \n",getppid());
-					//trova_nome_padre(getppid(),nome_padre,n);*/
-					//nome_progressivo(nome_padre,contatore);
-					//int j=0;
-					//while (lista_processi[n].nome_processo[j] != '\0')
-					//{
-					//	 lista_processi[n].nome_processo[j] = nome_padre[j];
-						//printf("nuovo_nome nel while: %c\n",nuovo_nome[i]);
-						//j++;
-					//}
-					//pnew(nuovonome, n);
-					//n++;
-					//close(lista_processi[n].fd[LEGGI]);
-					//break;
+					
+					comando=read(lista_processi[n].fd[LEGGI],&buf,100);
+					printf("Buf nel while ma fuori dall'if: %d\n", buf);
+					//printf("buf: %d, comando: %d\n", buf, comando);
+					if(buf==1)
+					{
+						buf = -1;
+						printf("Buf dopo if: %d\n",buf);	
+						char nuovo_nome[DIM_NOME];
+						contatore++;
+						//printf("sono nel ciclo\n");
+						strcmp(nome,nuovo_nome);
+						nome_progressivo(nuovo_nome,contatore);
+						//printf("sto per avviare pnew\n");
+						//sleep(2);
+						pnew(nuovo_nome,contatore+1);
+						printf("Sono dopo pnew\n");
+						int w = 1;
+						int tmp1 = write(lista_processi[n].fd1[SCRIVI],&w,sizeof(w));
+						printf("Sto comunicando %d\n",tmp1);
+						
+						//comando=0;
+
+
+						//buf=-1;
+						
+					}
+					//buf = -1;
+					
 				}
-				else if (buf == 2)
+				/*else if (buf == 2)
 				{
 					//chiudi
 					
-				}
+				}*/
+				//buf = -1;				
+
 			}
+			
+			
 		}
 		else 
 		{ // parent process
@@ -232,7 +234,7 @@ bool pnew(char nome[],int n)
 			lista_processi[n].pid=childPID;
 			lista_processi[n].ppid=getpid();
 			lista_processi[n].chiuso=false;		//imposto chiuso a false per indicare che il processo è attivo 
-			system("echo a");//system call per ritornare al nostro terminale 		    
+			system("echo ");//system call per ritornare al nostro terminale 		    
        		};	
        		
         }
@@ -320,46 +322,51 @@ bool chiudi_processo (int n,char nome[])
 /*FUNZIONI AVANZATE DEL PROGETTO*/
 int pspawn(char nome[],int n, int *dove_sono) //chiede al processo di nome <nome> di clonarsi creando un processo di nome <nome_i> con i progressivo
 {
-
-	printf("sono all'inizio di pspawn\n");
-	printf ("%d\n",n);
+	
+	int buf1;
+	//printf("sono all'inizio di pspawn\n");
+	//printf ("%d\n",n);
 	int j=0;
 	for(int i=0; i<n; i++) //cerco il processo
 	{
-		printf("%s - %s(%d)\n",lista_processi[i].nome_processo,nome,i);
+		//printf("%s - %s(%d)\n",lista_processi[i].nome_processo,nome,i);
 		if (string_compare(lista_processi[i].nome_processo, nome))
 			{
 				printf("ho trovato il processo %s(%d)\n",nome,i);
-				
-				//close(lista_processi[n].fd[LEGGI]);
 				int a=1;
 				//metto in wait il padre e faccio riprendere il figlio
-				//printf("ora riprendo il processo\n");
 				int val = write(lista_processi[i].fd[SCRIVI],&a,sizeof(a));
-				//printf("pipe %d\n",lista_processi[i].fd[SCRIVI]);
-				printf("ho scritto a %d\n",a);
-				printf("val: %d\n",val);
-				//close(lista_processi[i].fd[scrivi]);
-				//printf(lista_processi[i].fd[scrivi]);
-				//modifico la pipe di quel processo e attendo che il figlio si cloni
-				//kill(lista_processi[i].pid,SIGCONT);
-				//close(lista_processi[i].fd[scrivi]);	
-			j++;
+				//printf("ho scritto a %d\n",a);
+				//printf("val: %d\n",val);
+				close(lista_processi[i].fd1[SCRIVI]);
+				int val1 = 0;
+				while(val1 == 0)
+				{
+					
+					printf("Sono nel while di val1\n"); 
+					val1 = read(lista_processi[i].fd1[LEGGI],&buf1,100);
+					printf("Cosa ho letto %d\n",buf1);
+					j++;
+				}
+				//j++;
+				
 			}
+			
 		
 		
 	}
 	dove_sono=0;
+					
 	return j;
 
-	/*else {
-			printf("Processo non trovato");
-		}*/
-	//return false;	
+	
 
 }
 
 
 void prmall(char nome[]); //chiede al processo di nome <nome> di chiudersi chiudendo anche tutti i suoi cloni
 
-void ptree(); //mostra la gerarchia dei processi attivi 
+
+
+
+
