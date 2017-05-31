@@ -148,10 +148,10 @@ bool pnew(char nome[],int n)
 	pid_t childPID;   
 	int fd[2];		//dichiarazione del pid del figlio 
 	pipe(lista_processi[n].fd);
-	int comando=0;
+
 	int buf=-1;
 	int contatore = 0;
-	char nome_padre[DIM_NOME];	
+	//char nome_padre[DIM_NOME];	
 	childPID = fork();		//eseguo una fork e associo il pid creato a childPID
 	
 	//CONTROLLO DEL SUCCESSO DELLA FORK 
@@ -161,6 +161,7 @@ bool pnew(char nome[],int n)
 		//CODICE PROCESSO FIGLIO
 		if (childPID == 0)
         	{ 
+        		int comando=0;
         		char byte=0;
 			global_variable++;
 			close(lista_processi[n].fd[SCRIVI]);
@@ -184,14 +185,22 @@ bool pnew(char nome[],int n)
 				printf("buf: %d, comando: %d\n", buf, comando);
 				if(buf==1)
 				{
+					char nuovo_nome[DIM_NOME];
 					contatore++;
 					printf("sono nel ciclo\n");
-					int clonePID = fork();
+					//int clonePID = fork();
+					//trova_nome_padre(getppid(),nome_padre,n);
+					strcmp(nome,nuovo_nome);
+					nome_progressivo(nuovo_nome,contatore);
+					pnew(nuovo_nome,contatore);
+					close(lista_processi[n].fd[LEGGI]);
+					sleep(5);					
+					/*					
 					lista_processi[n].pid == clonePID;
 					lista_processi[n].ppid == getppid();
 					printf("Il pid del processo figlio è %d \n", getpid());
 					printf("Il pid del processo padre è %d \n",getppid());
-					//trova_nome_padre(getppid(),nome_padre,n);
+					//trova_nome_padre(getppid(),nome_padre,n);*/
 					//nome_progressivo(nome_padre,contatore);
 					//int j=0;
 					//while (lista_processi[n].nome_processo[j] != '\0')
@@ -203,7 +212,7 @@ bool pnew(char nome[],int n)
 					//pnew(nuovonome, n);
 					//n++;
 					//close(lista_processi[n].fd[LEGGI]);
-					break;
+					//break;
 				}
 				else if (buf == 2)
 				{

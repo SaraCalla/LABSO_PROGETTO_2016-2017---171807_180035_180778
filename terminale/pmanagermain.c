@@ -14,7 +14,6 @@ int n=0; // contatore che rappresenta quanti processi ho nella lista dei process
 int dove_sono=0;
 int main(int argc, char *argv[]) {
 	
-
 	char *line =(char*) malloc(1*sizeof(char));  		//stringa che viene presa in input
 	char nome[MAX_NOME];						//nome del processo che verrà preso in input
 		while (1) 
