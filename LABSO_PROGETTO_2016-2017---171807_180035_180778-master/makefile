@@ -1,7 +1,7 @@
 .PHONY: clean help
 
-help: help.txt
-	@cat help.txt
+help: src/help.txt
+	@cat src/help.txt
 
 
 clean:
